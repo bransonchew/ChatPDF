@@ -47,7 +47,6 @@ export async function loadVectors(key: string) {
   // 5. Upload to pinecone
   const pinecone = new Pinecone({
     apiKey: process.env.PINECONE_API_KEY!,
-    environment: process.env.PINECONE_ENVIRONMENT!,
   })
   const index = pinecone.index('chatpdf')
   const ns = index.namespace(convertToAscii(key))

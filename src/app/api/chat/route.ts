@@ -42,7 +42,7 @@ export async function POST(req: Request) {
 
     // Request the OpenAI API for the response based on the prompt
     const response = await openai.chat.completions.create({
-      model: 'gpt-3.5-turbo',
+      model: process.env.OPENAI_CHAT_MODEL!,
       stream: true,
       messages: [
         prompt,
