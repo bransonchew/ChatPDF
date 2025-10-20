@@ -9,13 +9,9 @@ import { and, eq } from 'drizzle-orm'
 import { redirect } from 'next/navigation'
 
 
-type Props = {
-  params: {
-    chatId: string
-  }
-}
+type Params = Promise<{ chatId: string }>
 
-export default async function Page({ params: { chatId } }: Props) {
+export default async function Page({ params }: { params: Params }) {
 
   const { userId } = auth()
 
@@ -26,6 +22,7 @@ export default async function Page({ params: { chatId } }: Props) {
   )
 
   // Current chat
+  const { chatId } = await params
   const chat = _chats.find(chat => chat.id === chatId)
 
   if (!chat) {

@@ -9,6 +9,7 @@ function getDB() {
     throw new Error('Database URL not found!')
   }
   const sql = neon(process.env.DATABASE_URL)
+  // @ts-ignore
   return drizzle(sql)
 }
 
