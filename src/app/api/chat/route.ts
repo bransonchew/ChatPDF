@@ -3,7 +3,7 @@ import { db } from '@/lib/db'
 import { OpenAIStream, StreamingTextResponse } from 'ai'
 import { Message } from 'ai/react'
 import OpenAI from 'openai'
-import { messages as _messages, roleEnum } from '@/lib/db/schema'
+import { messages as _messages } from '@/lib/db/schema'
 
 
 const openai = new OpenAI({
@@ -48,6 +48,7 @@ export async function POST(req: Request) {
     })
 
     // Convert the response into a friendly text-stream
+    // @ts-ignore
     const stream = OpenAIStream(response, {
       // Save user query message to db
       onStart: async () => {

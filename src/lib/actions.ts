@@ -67,6 +67,7 @@ export async function getSignedURL({
     Metadata: { userId },
   })
 
+  // @ts-ignore
   const url = await getSignedUrl(client, command, {
     expiresIn: 60,
   })

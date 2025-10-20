@@ -2,9 +2,9 @@ import { downloadFile } from '@/lib/aws'
 import { getEmbedding } from '@/lib/embeddings'
 import { convertToAscii } from '@/lib/utils'
 import { Pinecone, PineconeRecord } from '@pinecone-database/pinecone'
-import { Document } from 'langchain/document'
-import { PDFLoader } from 'langchain/document_loaders/fs/pdf'
-import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter'
+import { Document } from '@langchain/core/documents'
+import { PDFLoader } from '@langchain/community/document_loaders/fs/pdf'
+import { RecursiveCharacterTextSplitter } from '@langchain/textsplitters'
 import md5 from 'md5'
 
 
@@ -32,8 +32,6 @@ export async function loadVectors(key: string) {
   const loader = new PDFLoader(path)
   const pages = await loader.load() as PDFPage[]
 
-  pages.forEach(page => console.log(page))
-
   // 3. Split and segment the pdf
   const docs = await splitDocuments(pages)
 
@@ -50,8 +48,9 @@ export async function loadVectors(key: string) {
   })
   const index = pinecone.index('chatpdf')
   const ns = index.namespace(convertToAscii(key))
-
   await ns.upsert(vectors)
+
+  console.log('File vectors loaded successfully!')
 }
 
 async function splitDocuments(docs: Document[]) {
